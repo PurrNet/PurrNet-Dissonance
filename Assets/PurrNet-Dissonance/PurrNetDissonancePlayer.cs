@@ -48,7 +48,17 @@ namespace Dissonance.Integrations.PurrNet
                 ServerRpcSetPlayerId(GetDissonanceLocalPlayerName());
             }
         }
-
+        public void SetTrackingTransform(Transform newTransform)
+        {
+            if (newTransform == null)
+            {
+                PurrLogger.LogError("Tracking transform cannot be null.");
+                return;
+            }
+            trackingTransform = newTransform;
+            _transform = newTransform;
+            PurrLogger.Log($"Tracking transform set to: {_transform.name}");
+        }
         // "name" is the player ID in Dissonance, which is set by the DissonanceComms component 
         private string GetDissonanceLocalPlayerName()
         {
