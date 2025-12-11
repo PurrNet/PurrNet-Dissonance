@@ -20,15 +20,40 @@ namespace Dissonance.Integrations.PurrNet
         {
             comms = GetComponent<DissonanceComms>();
             InstanceHandler.RegisterInstance(this);
-            NetworkManager.main.onClientConnectionState += OnClientConnectionState;
+
+            if (startFlags == StartFlags.None)
+            {
+                return;
+            }
+            
+#if UNITY_SERVER
+            NetworkManager.main.onServerConnectionState += OnConnectionState;
+#else
+            NetworkManager.main.onClientConnectionState += OnConnectionState;
+#endif
         }
+
         private void OnDestroy()
         {
             InstanceHandler.UnregisterInstance<PurrNetCommsNetwork>();
-            NetworkManager.main.onClientConnectionState -= OnClientConnectionState;
+            NetworkManager.main.onClientConnectionState -= OnConnectionState;
+            NetworkManager.main.onServerConnectionState -= OnConnectionState;
         }
 
-        private void OnClientConnectionState(ConnectionState connectionState)
+        /// <summary>
+        /// Try starting PurrNetCommsNetwork manually. Use this if your startFlags is set to None.
+        /// </summary>
+        public void TryRunManually()
+        {
+            if (InstanceHandler.NetworkManager.isHost)
+                RunAsHost(null, null);
+            else if (InstanceHandler.NetworkManager.isServerOnly)
+                RunAsDedicatedServer(null);
+            else if (InstanceHandler.NetworkManager.isClientOnly)
+                RunAsClient(null);
+        }
+
+        private void OnConnectionState(ConnectionState connectionState)
         {
             if (connectionState == ConnectionState.Connected)
             {

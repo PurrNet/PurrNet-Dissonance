@@ -20,7 +20,7 @@ namespace Dissonance.Integrations.PurrNet
         protected override void SendReliable(PlayerID connection, ArraySegment<byte> packet)
         {
             if (NetworkManager.main != null && NetworkManager.main.sceneModule != null)
-                if (NetworkManager.main.clientState == ConnectionState.Connected)
+                if (NetworkManager.main.serverState == ConnectionState.Connected)
                     if (NetworkManager.main.sceneModule.TryGetSceneID(_network.gameObject.scene, out var scene))
                     {
                         var bytes = ByteArrayPool.Rent(packet.Count);
@@ -32,7 +32,7 @@ namespace Dissonance.Integrations.PurrNet
         protected override void SendUnreliable(PlayerID connection, ArraySegment<byte> packet)
         {
             if (NetworkManager.main != null && NetworkManager.main.sceneModule != null)
-                if (NetworkManager.main.clientState == ConnectionState.Connected)
+                if (NetworkManager.main.serverState == ConnectionState.Connected)
                     if (NetworkManager.main.sceneModule.TryGetSceneID(_network.gameObject.scene, out var scene))
                     {
                         var bytes = ByteArrayPool.Rent(packet.Count);
