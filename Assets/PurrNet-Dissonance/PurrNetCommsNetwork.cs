@@ -20,15 +20,21 @@ namespace Dissonance.Integrations.PurrNet
         {
             comms = GetComponent<DissonanceComms>();
             InstanceHandler.RegisterInstance(this);
-            NetworkManager.main.onClientConnectionState += OnClientConnectionState;
+#if UNITY_SERVER
+            NetworkManager.main.onServerConnectionState += OnConnectionState;
+#else
+            NetworkManager.main.onClientConnectionState += OnConnectionState;
+#endif
         }
+
         private void OnDestroy()
         {
             InstanceHandler.UnregisterInstance<PurrNetCommsNetwork>();
-            NetworkManager.main.onClientConnectionState -= OnClientConnectionState;
+            NetworkManager.main.onClientConnectionState -= OnConnectionState;
+            NetworkManager.main.onServerConnectionState -= OnConnectionState;
         }
 
-        private void OnClientConnectionState(ConnectionState connectionState)
+        private void OnConnectionState(ConnectionState connectionState)
         {
             if (connectionState == ConnectionState.Connected)
             {
