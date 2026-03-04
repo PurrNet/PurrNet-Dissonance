@@ -1,11 +1,19 @@
 {
-    "name": "purrnet-dissonance",
-    "version": "1.0.0",
-    "description": "Dissonance integration with PurrNet",
-    "displayName": "PurrNet Dissonance",
-    "documentationUrl": "https://purrnet.gitbook.io/",
-    "hideInEditor": false,
-    "keywords": [
-        "purrnet"
-    ]
+  "name": "dev.purrnet.dissonance",
+  "version": "1.0.0",
+  "author": {
+    "name": "PurrNet Team",
+    "url": "https://purrnet.dev/"
+  },
+  "description": "Dissonance integration with PurrNet.",
+  "displayName": "PurrNet Dissonance",
+  "documentationUrl": "https://purrnet.gitbook.io/",
+  "hideInEditor": false,
+  "keywords": [
+    "purrnet",
+    "networking",
+    "multiplayer",
+    "dissonance",
+    "voice"
+  ]
 }
