@@ -85,6 +85,8 @@ namespace Dissonance.Integrations.PurrNet
                 comms.LocalPlayerName = owner.Value.id.ToString();
 
             _playerId.value = comms.LocalPlayerName;
+            // Explicitly trigger tracking since onChanged may not fire locally on the server.
+            OnPlayerIdChanged(comms.LocalPlayerName);
         }
 
         [ServerRpc(requireOwnership: true)]
@@ -92,6 +94,9 @@ namespace Dissonance.Integrations.PurrNet
         {
             _playerId.value = id;
             PurrLogger.Log($"Server set player ID: {id}");
+            // SyncVar onChanged may not fire on the server when the server sets the value,
+            // so explicitly trigger tracking to ensure the host registers remote players.
+            OnPlayerIdChanged(id);
         }
 
         private void OnEnable()
