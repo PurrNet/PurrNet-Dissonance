@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3346230901672975623}
   - component: {fileID: 6028508603073773827}
-  - component: {fileID: 1937479500786705311}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -57,24 +56,3 @@ MonoBehaviour:
   trackingTransform: {fileID: 3346230901672975623}
   dissonanceId_Debug: 
   isTracking_Debug: 0
---- !u!114 &1937479500786705311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3038797334321894207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d589309a8b0b45f44a0ddd1e2e82017a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
