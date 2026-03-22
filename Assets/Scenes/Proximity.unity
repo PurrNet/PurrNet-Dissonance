@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 236746782}
   - component: {fileID: 236746781}
   - component: {fileID: 236746784}
+  - component: {fileID: 236746785}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -150,11 +151,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc64ff707d914a64e95f2ac0bf554c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _automaticCloudSetups:
+    _adaptToEdgegap: 1
   _serverPort: 5000
   _maxConnections: 100
   _address: 127.0.0.1
   _timeoutInSeconds: 5
   _pollEventsInUpdate: 0
+  _networkSimulation:
+    includeInBuild: 0
+    simulateLatency: 0
+    minLatency: 30
+    maxLatency: 100
+    simulatePacketLoss: 0
+    packetLossChance: 10
 --- !u!114 &236746782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,12 +182,14 @@ MonoBehaviour:
   _startClientFlags: 7
   _cookieScope: 1
   _dontDestroyOnLoad: 0
-  _transport: {fileID: 236746781}
+  _transport: {fileID: 236746785}
   _networkPrefabs: {fileID: 11400000, guid: 6df1f043c415f994e85a0c98a5d3610d, type: 2}
+  _networkAssets: {fileID: 0}
   _networkRules: {fileID: 11400000, guid: d8799083b96579a42b8b2d03e4ceae98, type: 2}
   _visibilityRules: {fileID: 11400000, guid: 8f014a5bd8dc68646a2a3c0b18c5bbd8, type: 2}
   _authenticator: {fileID: 0}
   _tickRate: 20
+  _mtuExceededBehaviour: 1
   _patchLingeringProcessBug: 0
 --- !u!4 &236746783
 Transform:
@@ -210,6 +222,31 @@ MonoBehaviour:
   _playerPrefab: {fileID: 3038797334321894207, guid: 46b269c513283974eb91b3133589a53c, type: 3}
   _ignoreNetworkRules: 0
   spawnPoints: []
+--- !u!114 &236746785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236746780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332e746c3c3253246aacad4d5559f1fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _masterServer: https://purrtransport.purrservers.com/
+  _roomName: 91d4f16fedc943dbbe137eb77d8b9ef3
+  _region: france
+  _host: purrtransport-france.purrservers.com
+  _timeoutInSeconds: 5
+  _pollEventsInUpdate: 0
+  _networkSimulation:
+    includeInBuild: 0
+    simulateLatency: 0
+    minLatency: 30
+    maxLatency: 100
+    simulatePacketLoss: 0
+    packetLossChance: 10
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
