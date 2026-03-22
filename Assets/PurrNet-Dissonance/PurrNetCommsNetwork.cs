@@ -1,5 +1,6 @@
 using Dissonance.Networking;
 using PurrNet;
+using PurrNet.Logging;
 using PurrNet.Transports;
 using UnityEngine;
 
@@ -15,6 +16,14 @@ namespace Dissonance.Integrations.PurrNet
 
         public PurrNetServer server { get; private set; }
         public PurrNetClient client { get; private set; }
+
+        /// <summary>
+        /// The PlayerID used by the host's Dissonance client during its initial handshake.
+        /// On PurrNet hosts, localPlayer can change from 'Server' to a numeric ID after init,
+        /// but Dissonance's server stores the original ID, so we must remember it for loopback.
+        /// </summary>
+        internal PlayerID hostClientPlayerId { get; set; }
+        internal bool hasHostClientId { get; set; }
 
         private void Awake()
         {
@@ -55,6 +64,7 @@ namespace Dissonance.Integrations.PurrNet
 
         private void OnConnectionState(ConnectionState connectionState)
         {
+            //PurrLogger.Log($"[Dissonance-Comms] OnConnectionState: {connectionState}, isHost={InstanceHandler.NetworkManager.isHost}, isServer={InstanceHandler.NetworkManager.isServer}, isClient={InstanceHandler.NetworkManager.isClient}, localPlayer={NetworkManager.main?.localPlayer}");
             if (connectionState == ConnectionState.Connected)
             {
 #if UNITY_EDITOR
