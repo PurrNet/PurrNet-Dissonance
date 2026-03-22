@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Dissonance.Networking;
 using PurrNet;
@@ -19,25 +19,33 @@ namespace Dissonance.Integrations.PurrNet
 
         protected override void SendReliable(PlayerID connection, ArraySegment<byte> packet)
         {
-            if (NetworkManager.main != null && NetworkManager.main.sceneModule != null)
+            if (NetworkManager.main && NetworkManager.main.sceneModule != null)
                 if (NetworkManager.main.serverState == ConnectionState.Connected)
                     if (NetworkManager.main.sceneModule.TryGetSceneID(_network.gameObject.scene, out var scene))
                     {
                         var bytes = ByteArrayPool.Rent(packet.Count);
                         Buffer.BlockCopy(packet.Array, packet.Offset, bytes, 0, packet.Count);
-                        PurrNetClient.ClientReceiveDataReliable(connection, scene, bytes);
+
+                        if (NetworkManager.main.isHost && connection == NetworkManager.main.localPlayer)
+                            PurrNetClient.ReceiveData(scene, bytes);
+                        else
+                            PurrNetClient.ClientReceiveDataReliable(connection, scene, bytes);
                     }
         }
 
         protected override void SendUnreliable(PlayerID connection, ArraySegment<byte> packet)
         {
-            if (NetworkManager.main != null && NetworkManager.main.sceneModule != null)
+            if (NetworkManager.main && NetworkManager.main.sceneModule != null)
                 if (NetworkManager.main.serverState == ConnectionState.Connected)
                     if (NetworkManager.main.sceneModule.TryGetSceneID(_network.gameObject.scene, out var scene))
                     {
                         var bytes = ByteArrayPool.Rent(packet.Count);
                         Buffer.BlockCopy(packet.Array, packet.Offset, bytes, 0, packet.Count);
-                        PurrNetClient.ClientReceiveDataUnreliable(connection, scene, bytes);
+
+                        if (NetworkManager.main.isHost && connection == NetworkManager.main.localPlayer)
+                            PurrNetClient.ReceiveData(scene, bytes);
+                        else
+                            PurrNetClient.ClientReceiveDataUnreliable(connection, scene, bytes);
                     }
         }
 
@@ -54,7 +62,7 @@ namespace Dissonance.Integrations.PurrNet
             ReceiveData(info.sender, scene, data);
         }
 
-        private static void ReceiveData(PlayerID player, SceneID scene, byte[] data)
+        internal static void ReceiveData(PlayerID player, SceneID scene, byte[] data)
         {
             if (!_receivedData.TryGetValue(scene, out var sceneQueue))
             {
