@@ -3,7 +3,7 @@ using Dissonance.Integrations.PurrNet;
 using PurrNet;
 using UnityEditor;
 
-namespace Dissonance.Integrations.PurrNet
+namespace DissonanceVoip.PurrNet.Editor
 {
     [CustomEditor(typeof(PurrNetCommsNetwork))]
     public class CustomCommsNetworkEditor

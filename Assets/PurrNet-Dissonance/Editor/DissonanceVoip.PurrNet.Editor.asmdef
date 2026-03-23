@@ -1,0 +1,21 @@
+{
+    "name": "DissonanceVoip.PurrNet.Editor",
+    "rootNamespace": "DissonanceVoip.PurrNet.Editor",
+    "references": [
+        "GUID:a29ae2844941cca4ea8328981fc9b0dd",
+        "GUID:e9244de365e87924c955165fd5894cf4",
+        "GUID:61106e8dfb7a4e64a96af0eccfe1209f",
+        "GUID:6e20f757a1bae164fa42750dd2b27dcb"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
