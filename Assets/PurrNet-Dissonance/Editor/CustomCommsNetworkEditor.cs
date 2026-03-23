@@ -3,8 +3,10 @@ using Dissonance.Integrations.PurrNet;
 using PurrNet;
 using UnityEditor;
 
-[CustomEditor(typeof(PurrNetCommsNetwork))]
-public class CustomCommsNetworkEditor
+namespace Dissonance.Integrations.PurrNet
+{
+    [CustomEditor(typeof(PurrNetCommsNetwork))]
+    public class CustomCommsNetworkEditor
     : BaseDissonnanceCommsNetworkEditor<
         PurrNetCommsNetwork,
         PurrNetServer,
@@ -13,5 +15,11 @@ public class CustomCommsNetworkEditor
         object,
         object
     >
-{
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            DrawDefaultInspector();
+        }
+    }
 }
