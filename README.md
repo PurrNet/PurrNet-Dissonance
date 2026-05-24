@@ -15,6 +15,6 @@ Dissonance Comms should automatically initialize with the PurrNet comms and have
 ## Having issues?
 Join our Discord and ask as many questions as you want, or read through our docs to familiarize yourself with PurrNet!
 
-[Documentation](https://purrnet.gitbook.io)
+[Documentation](https://purrnet.dev/docs/integrations/dissonance)
 
 [Discord](https://discord.gg/NP9tP9Qx9R)
