@@ -28,6 +28,11 @@ namespace Dissonance.Integrations.PurrNet
             if (!NetworkManager.main.sceneModule.TryGetSceneID(_network.gameObject.scene, out var scene))
                 return;
 
+            // The host-client must not send until localPlayer has its final id (otherwise
+            // hostClientPlayerId would be cached as the transient 'Server' and collide with peers).
+            if (NetworkManager.main.isHost && !NetworkManager.main.isLocalPlayerReady)
+                return;
+
             var bytes = ByteArrayPool.Rent(packet.Count);
             Buffer.BlockCopy(packet.Array, packet.Offset, bytes, 0, packet.Count);
 
@@ -52,6 +57,10 @@ namespace Dissonance.Integrations.PurrNet
                 if (NetworkManager.main.clientState == ConnectionState.Connected)
                     if (NetworkManager.main.sceneModule.TryGetSceneID(_network.gameObject.scene, out var scene))
                     {
+                        // See SendReliable: don't send as the host-client before localPlayer is ready.
+                        if (NetworkManager.main.isHost && !NetworkManager.main.isLocalPlayerReady)
+                            return;
+
                         var bytes = ByteArrayPool.Rent(packet.Count);
                         Buffer.BlockCopy(packet.Array, packet.Offset, bytes, 0, packet.Count);
 
@@ -96,6 +105,22 @@ namespace Dissonance.Integrations.PurrNet
             }
 
             queue.Enqueue(data);
+        }
+
+        /// <summary>
+        /// Clears the static receive queue. Called on session start/stop so a reconnecting client
+        /// does not process stale packets from the previous session ('wrong session ID' kick).
+        /// </summary>
+        internal static void ClearReceiveQueues()
+        {
+            foreach (var kv in _receivedData)
+            {
+                var queue = kv.Value;
+                while (queue.Count > 0)
+                    ByteArrayPool.Return(queue.Dequeue());
+                QueuePool<byte[]>.Destroy(queue); // return the queue itself to the pool, not just its buffers
+            }
+            _receivedData.Clear();
         }
 
         protected override void ReadMessages()
