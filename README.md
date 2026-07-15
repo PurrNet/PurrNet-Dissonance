@@ -101,9 +101,14 @@ flows; ordinary hosts and dedicated servers should leave it disabled.
 
 ## 🧪 Status and Limitations
 
-The current fixes were exercised in Unity Editor Multiplayer Play Mode with a host
-and one to three clients, including disconnect and reconnect orders. Standalone
-builds and real headless dedicated-server deployments still need explicit testing.
+Version 1.1.0 was tested in Unity 6000.4 with Multiplayer Play Mode 2.0.2,
+PurrNet v1.20.0-beta.249, and Dissonance 9.0.9. The exercised topology was one
+host and one to three clients, covering connection, disconnect, reconnect, and
+server-to-host promotion.
+
+Standalone builds, real headless dedicated-server deployments, and multiple
+independent `DissonanceComms` instances have not been tested. In particular,
+multi-scene setups using separate Dissonance sessions need explicit validation.
 
 ## 💬 Help
 
