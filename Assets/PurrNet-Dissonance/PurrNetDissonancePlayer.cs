@@ -20,7 +20,9 @@ namespace Dissonance.Integrations.PurrNet
         private readonly SyncVar<string> _playerId = new("", ownerAuth: false);
         private Transform _transform;
         private DissonanceComms _dissonanceComms;
-        public DissonanceComms dissonanceComms => _dissonanceComms ??= FindObjectOfType<DissonanceComms>();
+        // FindAnyObjectByType replaces the Unity-6-deprecated FindObjectOfType; there is a single
+        // DissonanceComms per scene, so "any" is both correct and the faster of the new APIs (no sort).
+        public DissonanceComms dissonanceComms => _dissonanceComms ??= FindAnyObjectByType<DissonanceComms>();
 
         // IDissonancePlayer implementation
         public string PlayerId => _playerId.value;

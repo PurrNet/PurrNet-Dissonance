@@ -18,6 +18,16 @@ namespace Dissonance.Integrations.PurrNet
             _network = network;
         }
 
+        /// <summary>
+        /// Called when a PurrNet player leaves so the Dissonance server removes the stale client.
+        /// BaseServer.ClientDisconnected is documented to require this call from the integration;
+        /// without it departed clients linger and break their own reconnects.
+        /// </summary>
+        internal void NotifyPlayerDisconnected(PlayerID player)
+        {
+            ClientDisconnected(player);
+        }
+
         protected override void SendReliable(PlayerID connection, ArraySegment<byte> packet)
         {
             if (!(NetworkManager.main && NetworkManager.main.sceneModule != null))
@@ -93,6 +103,26 @@ namespace Dissonance.Integrations.PurrNet
             }
 
             sceneQueue.data[player].Enqueue(data);
+        }
+
+        /// <summary>
+        /// Clears the static receive queue. Called on session start/stop so stale packets from a
+        /// previous session are not processed after a reconnect.
+        /// </summary>
+        internal static void ClearReceiveQueues()
+        {
+            foreach (var kv in _receivedData)
+            {
+                foreach (var pq in kv.Value.data)
+                {
+                    var queue = pq.Value;
+                    while (queue.Count > 0)
+                        ByteArrayPool.Return(queue.Dequeue());
+                    QueuePool<byte[]>.Destroy(queue); // return the queue itself to the pool, not just its buffers
+                }
+                kv.Value.data.Clear();
+            }
+            _receivedData.Clear();
         }
 
         protected override void ReadMessages()
